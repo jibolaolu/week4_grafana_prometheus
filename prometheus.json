@@ -41,5 +41,6 @@
         "cat ~/LinuxKeyPair.pem >> ~/.ssh/authorized_keys"
       ]
     }
+
   ]
 }
