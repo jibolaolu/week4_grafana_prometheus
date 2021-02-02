@@ -1,0 +1,45 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "eu-west-2",
+      "source_ami": "ami-098828924dc89ea4a",
+      "instance_type": "t2.micro",
+      "ssh_username": "ec2-user",
+      "ami_name": "prometheus-ami{{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo -i",
+        "sudo yum update -y",
+        "sudo amazon-linux-extras install java-openjdk11 -y",
+        "sudo yum install git -y",
+        "sudo yum install docker -y",
+        "sudo systemctl start docker",
+        "sudo usermod -aG docker ec2-user",
+        "sudo systemctl enable docker",
+        "sudo chkconfig docker on"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "./LinuxKeyPair.pem",
+      "destination": "~/"
+    },
+    {
+      "type":"shell",
+      "inline": [
+        "cat ~/LinuxKeyPair.pem >> ~/.ssh/authorized_keys"
+      ]
+    }
+  ]
+}
