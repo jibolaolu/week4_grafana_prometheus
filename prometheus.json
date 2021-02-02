@@ -40,12 +40,6 @@
       "inline": [
         "cat ~/LinuxKeyPair.pem >> ~/.ssh/authorized_keys"
       ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "sudo docker run -d -p 9090:9090 --name Prometheus prom/prometheus"
-      ]
     }
   ]
 }

@@ -20,17 +20,17 @@ resource "aws_security_group" "monitor_SG" {
   }
 
   ingress {
-    from_port = 443
-    protocol = "tcp"
-    to_port = 443
+    from_port   = 443
+    protocol    = "tcp"
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   #Prometheus
   ingress {
-    from_port = 9090
-    protocol  = "tcp"
-    to_port   = 9090
+    from_port   = 9090
+    protocol    = "tcp"
+    to_port     = 9090
     cidr_blocks = ["0.0.0.0/0"]
   }
 
