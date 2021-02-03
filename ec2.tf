@@ -1,5 +1,5 @@
 resource "aws_instance" "Grafana_Node" {
-  ami             = "ami-0f7865f0b7b26ca0c"
+  ami             = "ami-05ad83b691f982391"
   instance_type   = "t2.micro"
   subnet_id       = aws_subnet.monitor_PublicSubnet.id
   security_groups = [aws_security_group.monitor_SG.id]
@@ -12,7 +12,7 @@ resource "aws_instance" "Grafana_Node" {
 }
 
 resource "aws_instance" "Prometheus_Node" {
-  ami             = "ami-045613b175c84340c"
+  ami             = "ami-0435914201bf700c1"
   instance_type   = "t2.micro"
   subnet_id       = aws_subnet.monitor_PrivateSubnet.id
   security_groups = [aws_security_group.monitor_SG.id, aws_security_group.Private_Instance_SG_SSH.id]

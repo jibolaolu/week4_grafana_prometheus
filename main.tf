@@ -26,7 +26,7 @@ resource "aws_subnet" "monitor_PublicSubnet" {
 resource "aws_subnet" "monitor_PrivateSubnet" {
   cidr_block        = "10.8.2.0/24"
   vpc_id            = aws_vpc.monitor_VPC.id
-  availability_zone = "eu-west-2c"
+  availability_zone = "eu-west-2a"
 }
 
 resource "aws_route_table" "monitor_Public_RT" {
@@ -56,14 +56,14 @@ resource "aws_route_table_association" "monitor_private_RT_Association" {
   route_table_id = aws_route_table.monitor_Private_RT.id
 }
 
-resource "aws_network_interface" "monitor_Network_Interface" {
-  subnet_id       = aws_subnet.monitor_PublicSubnet.id
-  security_groups = [aws_security_group.monitor_SG.id]
+#resource "aws_network_interface" "monitor_Network_Interface" {
+  #subnet_id       = aws_subnet.monitor_PublicSubnet.id
+  #security_groups = [aws_security_group.monitor_SG.id]
 
-  tags = {
-    Name = "Monitor_Network_Interface"
-  }
-}
+  #tags = {
+    #Name = "Monitor_Network_Interface"
+  #}
+#}
 
 resource "aws_network_interface" "monitor_Network_Interface_Private" {
   subnet_id       = aws_subnet.monitor_PrivateSubnet.id
@@ -74,9 +74,9 @@ resource "aws_network_interface" "monitor_Network_Interface_Private" {
   }
 }
 
-resource "aws_network_interface_attachment" "Monitor_NI_Attachment" {
-  device_index         = 1
-  instance_id          = aws_instance.Prometheus_Node.id
-  network_interface_id = aws_network_interface.monitor_Network_Interface.id
+#resource "aws_network_interface_attachment" "Monitor_NI_Attachment" {
+  #device_index         = 1
+  #instance_id          = aws_instance.Prometheus_Node.id
+  #network_interface_id = aws_network_interface.monitor_Network_Interface_Private.id
 
-}
+#}

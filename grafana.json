@@ -12,7 +12,10 @@
       "source_ami": "ami-098828924dc89ea4a",
       "instance_type": "t2.micro",
       "ssh_username": "ec2-user",
-      "ami_name": "grafana-ami{{timestamp}}"
+      "ami_name": "grafana-ami{{timestamp}}",
+      "vpc_id": "vpc-6d33a105",
+      "subnet_id":  "subnet-7d4fef07",
+      "security_group_id": "sg-0a6903c594660b37a"
     }
   ],
   "provisioners": [
@@ -38,7 +41,7 @@
     {
       "type":"shell",
       "inline": [
-        "cat ~/LinuxKeyPair.pem >> ~/.ssh/authorized_keys"
+        "cat ~/LinuxKeyPair.pem >> /home/ec2-user/.ssh/authorized_keys"
       ]
     }
   ]
