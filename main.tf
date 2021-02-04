@@ -16,6 +16,22 @@ resource "aws_internet_gateway" "monitor_IGW" {
   }
 }
 
+resource "aws_eip" "MonitorEIP" {
+  vpc = true
+  tags = {
+    Name = "MonitorEIP"
+  }
+}
+
+resource "aws_nat_gateway" "Monitor_NAT" {
+  allocation_id = aws_eip.MonitorEIP.id
+  subnet_id     = aws_subnet.monitor_PublicSubnet.id
+
+  tags = {
+    Name = "Monitor_NATGW"
+  }
+}
+
 resource "aws_subnet" "monitor_PublicSubnet" {
   cidr_block              = "10.8.1.0/24"
   vpc_id                  = aws_vpc.monitor_VPC.id
@@ -49,6 +65,10 @@ resource "aws_route_table_association" "monitor_Public_RT_Assocition" {
 
 resource "aws_route_table" "monitor_Private_RT" {
   vpc_id = aws_vpc.monitor_VPC.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.Monitor_NAT.id
+  }
 }
 
 resource "aws_route_table_association" "monitor_private_RT_Association" {
@@ -57,26 +77,26 @@ resource "aws_route_table_association" "monitor_private_RT_Association" {
 }
 
 #resource "aws_network_interface" "monitor_Network_Interface" {
-  #subnet_id       = aws_subnet.monitor_PublicSubnet.id
-  #security_groups = [aws_security_group.monitor_SG.id]
+#subnet_id       = aws_subnet.monitor_PublicSubnet.id
+#security_groups = [aws_security_group.monitor_SG.id]
 
-  #tags = {
-    #Name = "Monitor_Network_Interface"
-  #}
+#tags = {
+#Name = "Monitor_Network_Interface"
+#}
 #}
 
-resource "aws_network_interface" "monitor_Network_Interface_Private" {
-  subnet_id       = aws_subnet.monitor_PrivateSubnet.id
-  security_groups = [aws_security_group.monitor_SG.id]
+#resource "aws_network_interface" "monitor_Network_Interface_Private" {
+#subnet_id       = aws_subnet.monitor_PrivateSubnet.id
+#security_groups = [aws_security_group.Private_Instances.id]
 
-  tags = {
-    Name = "Monitor_Network_Interface"
-  }
-}
+#tags = {
+# Name = "Monitor_Network_Interface"
+#}
+#}
 
 #resource "aws_network_interface_attachment" "Monitor_NI_Attachment" {
-  #device_index         = 1
-  #instance_id          = aws_instance.Prometheus_Node.id
-  #network_interface_id = aws_network_interface.monitor_Network_Interface_Private.id
+#device_index         = 1
+#instance_id          = aws_instance.Prometheus_Node.id
+# network_interface_id = aws_network_interface.monitor_Network_Interface_Private.id
 
 #}
